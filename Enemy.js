@@ -22,6 +22,14 @@ export default class Enemy {
         //Dibujar texto
         ctx.fillStyle = 'black';
         ctx.font = "25px Arial";
-        ctx.fillText(this.health, this.x + this.width / 3.5, this.y + this.height / 1.5);    
+        ctx.fillText(
+            this.health, 
+            this.x + this.width / 3.5, 
+            this.y + this.height / 1.5
+        );    
+    }
+
+    takeDamage(damage) {
+        this.health -= damage;
     }
 }
