@@ -1,16 +1,32 @@
-import Bullet from "./Bullet";
+import Bullet from "./Bullet.js";
 
 export default class BulletController {
     bullets = [];
     timerTilNextBullet = 0;
+
     constructor(canvas) {
         this.canvas = canvas;
     }
 
-    shoot() {
+    shoot(x, y, speed, damage, delay) {
         if (this.timerTilNextBullet <= 0) {
-            this.bullets.push(new Bullet());
+            this.bullets.push(new Bullet(x, y, speed, damage));
+            this.timerTilNextBullet = delay;
         }
+
+        this.timerTilNextBullet--;
     }
-    draw(ctx) {}
+    draw(ctx) { 
+        this.bullets.forEach((bullet) => {
+            if (this.isBulletOffScreen(bullet)) {
+                const index = this.bullets.indexOf(bullet);
+                this.bullets.splice(index, 1);
+            }
+            bullet.draw(ctx);
+        });
+    }
+
+    isBulletOffScreen(bullet) {
+        return bullet.y <= -bullet.height;
+    }
 }
